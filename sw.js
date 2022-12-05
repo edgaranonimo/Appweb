@@ -1,84 +1,48 @@
-//asignar nombre y version de cache
-const CACHE_NAME = 'v2_cache_awp';
-
-//configurar los archivos del cache
-
-const urlToCache = [
-    './',
-    '.style.css',
-    './images/1.png',
-    './images/2.png',
-    './images/3.png',
-    './images/4.png',
-    './images/5.png',
-    './images/6.png',
-    './images/facebook.png',
-    './images/favicon-16.png',
-    './images/favicon-32.png',
-    './images/favicon-64.png',
-    './images/favicon-96.png',
-    './images/favicon-128.png',
-    './images/favicon-192.png',
-    './images/favicon-256.png',
-    './images/favicon-384.png',
-    './images/favicon-512.png',
-    './images/favicon-1024.png',
-    './images/favicon.png',
-    './images/instagram.png',
-    './images/twiter.png',
-    './images/cupon.png',
-    './images/Descuento.png',
-    './images/servicio.png'
-];
-
-// Evento install
-// Instalacion del service worker y guardar en cache los recursos estaticos
-self.addEventListener('install', e =>{
-    e.waitUntil(
-        caches.open(CACHE_NAME).then(cache =>{
-            console.log(urlToCache);
-            return cache.addAll(urlToCache).then(res =>{
-                console.log("Informacion Cacheada con Exito");
-            }).catch(e =>{
-                console.log(e);
-            })
-          })
-    )
+self.addEventListener('install', e=>{
+    caches.open('cache-v1')
+    .then(cache =>{
+        cache.addAll([
+            './',
+            'index.html',
+            'style.css',
+            'script.js',
+            'images/1.png',
+            'images/2.png',
+            'images/3.png',
+            'images/4.png',
+            'images/5.png',
+            'images/6.png',
+            'images/cupon.png',
+            'images/Descuento.png',
+            'images/servicio.png',
+            'images/facebook.png',
+            'images/instagram.png',
+            'images/twiter.png',
+            'videos/1.mp4',
+            'videos/2.mp4',
+            'videos/3.mp4',
+        ])
+    });
+    e.waitUntil(cacheProm);
 });
 
-//Evento activate
-self.addEventListener('activate', e =>{
-    const cacheWhiteList = [CACHE_NAME];
-    e.waitUntil(
-        caches.keys()
-              .then(cacheNames => {
-                return Promise.all(
-                    cacheNames.map(cacheName => {
-                        if(cacheWhiteList.indexOf(cacheName) === -1){
-                            // Borrar los elementos q no se necesitan
-                            return caches.delete(cacheName);
-                        }
-                    })
-                );
-              })
-              .then(() =>{
-                //activar la cache
-                self.clients.claim();
-              })
-    );
-});
-
-//Evento fetch
-
-self.addEventListener('fetch', e => {
-    e.respondWith(
-        caches.match(e.request)
-            .then(res => {
-                if(res){
-                    //devuelvo los datos desde cache
-                    return res;
+self.addEventListener('fetch', e =>{
+    //cache-only
+    const respuesta = caches.match( e.request )
+    .then ( res => {
+        if ( res ) return res;
+        //no existe el archivo
+        //tengo que ir a la web
+        console.log('No existe', e.request.url);
+        return fetch( e.request ).then ( newResp => {
+            caches.open('cache-v1')
+                .then( cache => {
+                    cache.put( e.request, newResp);
                 }
-                return fetch(e.request);
-            })
-    );
+
+                )
+            return newResp.clone;
+        });
+    });
+    e.respondWith(respuesta);
 })
