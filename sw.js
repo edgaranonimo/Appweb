@@ -18,9 +18,9 @@ addEventListener('install', (event) => {
             './images/facebook.png',
             './images/instagram.png',
             './images/twiter.png',
-            './videos/1.mp4',
-            './videos/2.mp4',
-            './videos/3.mp4',
+            'https://www.youtube.com/embed/_RbsnNM4sCk',
+            'https://www.youtube.com/embed/Ev0EfF18tRw',
+            'https://www.youtube.com/embed/v68cA6W0kxI',
       ]);
     };
     event.waitUntil(preCache());
