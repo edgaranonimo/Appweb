@@ -1,33 +1,33 @@
-addEventListener('install', (event) => {
-    const preCache = async () => {
-      const cache = await caches.open('cache-v1');
-      return cache.addAll([
-        './',
+self.addEventListener('install', e=>{
+    caches.open('cache-v1')
+    .then(cache =>{
+        cache.addAll([
+            './',
             'index.html',
             'style.css',
             'script.js',
-            'images/1.png',
-            'images/2.png',
-            'images/3.png',
-            'images/4.png',
-            'images/5.png',
-            'images/6.png',
-            'images/cupon.png',
-            'images/Descuento.png',
-            'images/servicio.png',
-            'images/facebook.png',
-            'images/instagram.png',
-            'images/twiter.png',
-            'videos/1.mp4',
-            'videos/2.mp4',
-            'videos/3.mp4',
+            './images/1.png',
+            './images/2.png',
+            './images/3.png',
+            './images/4.png',
+            './images/5.png',
+            './images/6.png',
+            './images/cupon.png',
+            './images/Descuento.png',
+            './images/servicio.png',
+            './images/facebook.png',
+            './images/instagram.png',
+            './images/twiter.png',
+            './videos/1.mp4',
+            './videos/2.mp4',
+            './videos/3.mp4',
             'https://www.youtube.com/embed/_RbsnNM4sCk',
             'https://www.youtube.com/embed/Ev0EfF18tRw',
             'https://www.youtube.com/embed/v68cA6W0kxI',
-      ]);
-    };
-    event.waitUntil(preCache());
-  });
+        ])
+    });
+    e.waitUntil(cacheProm);
+});
 
 self.addEventListener('fetch', e =>{
     //cache-only
