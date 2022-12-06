@@ -1,6 +1,6 @@
 addEventListener('install', (event) => {
     const preCache = async () => {
-      const cache = await caches.open('static-v1');
+      const cache = await caches.open('cache-v1');
       return cache.addAll([
         './',
             'index.html',
@@ -38,7 +38,7 @@ self.addEventListener('fetch', e =>{
         //tengo que ir a la web
         console.log('No existe', e.request.url);
         return fetch( e.request ).then ( newResp => {
-            caches.open('static-v1')
+            caches.open('cache-v1')
                 .then( cache => {
                     cache.put( e.request, newResp);
                 }
