@@ -6,7 +6,6 @@ self.addEventListener('install', e=>{
             'index.html',
             'style.css',
             'script.js',
-            'sw.js',
             './images/1.png',
             './images/2.png',
             './images/3.png',
@@ -24,7 +23,7 @@ self.addEventListener('install', e=>{
             './videos/3.mp4',
         ])
     });
-    e.waitUntil(cacheProm);
+    e.waitUntil(caches);
 });
 
 self.addEventListener('fetch', e =>{
