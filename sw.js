@@ -38,7 +38,7 @@ self.addEventListener('fetch', e =>{
         //tengo que ir a la web
         console.log('No existe', e.request.url);
         return fetch( e.request ).then ( newResp => {
-            caches.open('cache-v1')
+            caches.open('static-v1')
                 .then( cache => {
                     cache.put( e.request, newResp);
                 }
