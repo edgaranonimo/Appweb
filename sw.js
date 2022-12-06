@@ -1,8 +1,8 @@
-self.addEventListener('install', e=>{
-    caches.open('cache-v1')
-    .then(cache =>{
-        cache.addAll([
-            './',
+addEventListener('install', (event) => {
+    const preCache = async () => {
+      const cache = await caches.open('static-v1');
+      return cache.addAll([
+        './',
             'index.html',
             'style.css',
             'script.js',
@@ -21,10 +21,10 @@ self.addEventListener('install', e=>{
             './videos/1.mp4',
             './videos/2.mp4',
             './videos/3.mp4',
-        ])
-    });
-    e.waitUntil(caches);
-});
+      ]);
+    };
+    event.waitUntil(preCache());
+  });
 
 self.addEventListener('fetch', e =>{
     //cache-only
