@@ -6,6 +6,7 @@ self.addEventListener('install', e=>{
             'index.html',
             'style.css',
             'script.js',
+            'sw.js',
             './images/1.png',
             './images/2.png',
             './images/3.png',
